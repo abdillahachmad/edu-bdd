@@ -1,19 +1,20 @@
+import searchPage from './searchPage'
 const { Given, When, Then } = require('@badeball/cypress-cucumber-preprocessor')
 
 Given('I am on Zero Bank homepage', () => {
-	cy.visit('http://zero.webappsecurity.com/index.html')
+	searchPage.visit()
 })
 
 When('I click on search box', () => {
-	cy.get('#searchTerm').click()
+	searchPage.clickSearchBox()
 })
 
 When('I enter {string} in search box', (searchText) => {
-	cy.get('#searchTerm').type(searchText)
+	searchPage.enterSearchText(searchText)
 })
 
 When('I press Enter key', () => {
-	cy.get('#searchTerm').type('{enter}')
+	searchPage.pressEnter()
 })
 
 // When('I press Enter key without entering text', () => {
@@ -21,19 +22,20 @@ When('I press Enter key', () => {
 // })
 
 Then('I should see search results', () => {
-	cy.get('h2').contains('Search Results:').should('be.visible')
+	searchPage.verifySearchResultsVisible()
 })
 
 Then('Search results should contain {string} related content', (searchText) => {
-	cy.get('div.top_offset').should('contain', searchText)
+	searchPage.verifySearchContent(searchText)
 })
 
 Then('I should see results summary text', () => {
 	// Verifikasi bahwa ada teks rangkuman hasil pencarian
-	cy.get('.top_offset').should('exist')
-	cy.get('.top_offset').should('be.visible')
+	searchPage.verifyResultsSummaryTextExists()
+	// cy.get('.top_offset').should('exist')
+	// cy.get('.top_offset').should('be.visible')
 })
 
 Then('I should see {string} message', (message) => {
-	cy.get('.top_offset').should('contain', message)
+	searchPage.verifyMessage(message)
 })
